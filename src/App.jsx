@@ -7,6 +7,7 @@ import { commonRoutes } from "./routes/commonRoutes";
 // import { serviceProviderRoutes } from "./routes/serviceProviderRoutes";
 import AuthGuard from "./components/AuthGuard.jsx";
 import RoleGuard from "./components/RoleGuard.jsx";
+import Layout from "./components/Layout.jsx";
 
 function App() {
   const { isAuthenticated, role } = useSelector((state) => state.auth);
@@ -26,11 +27,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {routes.map((route, index) => {
-          const Component = route.component;
-          if (route.protected) {
-            return (
-              <main>
+        <Route path="/" element={<Layout isAuthenticated={isAuthenticated} />}>
+          {routes.map((route, index) => {
+            const Component = route.component;
+            if (route.protected) {
+              return (
                 <Route
                   key={index}
                   path={route.path}
@@ -42,13 +43,13 @@ function App() {
                     </AuthGuard>
                   }
                 />
-              </main>
+              );
+            }
+            return (
+              <Route key={index} path={route.path} element={<Component />} />
             );
-          }
-          return (
-            <Route key={index} path={route.path} element={<Component />} />
-          );
-        })}
+          })}
+        </Route>
       </Routes>
     </Router>
   );

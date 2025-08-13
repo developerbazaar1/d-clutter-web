@@ -7,14 +7,6 @@ import { FeatureOfApp } from "./FeatureOfApp";
 export const LandingPage = () => {
   return (
     <>
-      <div
-        style={{
-          position: "relative",
-          height: "74px",
-        }}
-      >
-        <NonAuthHeader />
-      </div>
       <MainPage />
       <HowItWorks />
       <FeatureOfApp />
