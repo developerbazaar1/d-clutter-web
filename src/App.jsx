@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { commonRoutes } from "./routes/commonRoutes";
+// import { customerRoutes } from "./routes/customerRoutes";
+// import { serviceProviderRoutes } from "./routes/serviceProviderRoutes";
+import AuthGuard from "./components/AuthGuard.jsx";
+import RoleGuard from "./components/RoleGuard.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { isAuthenticated, role } = useSelector((state) => state.auth);
+
+  let routes = commonRoutes; // Start with common routes
+
+  // if (role === "customer") {
+  //   routes = [...routes, ...customerRoutes]; // Add customer-specific routes
+  // } else if (role === "serviceProvider") {
+  //   routes = [...routes, ...serviceProviderRoutes]; // Add service provider-specific routes
+  // }
+
+  if (!isAuthenticated) {
+    routes = [...routes, ...commonRoutes]; // Add common routes if not authenticated
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        {routes.map((route, index) => {
+          const Component = route.component;
+          if (route.protected) {
+            return (
+              <main>
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <AuthGuard>
+                      <RoleGuard allowedRoles={route.allowedRoles}>
+                        <Component />
+                      </RoleGuard>
+                    </AuthGuard>
+                  }
+                />
+              </main>
+            );
+          }
+          return (
+            <Route key={index} path={route.path} element={<Component />} />
+          );
+        })}
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
