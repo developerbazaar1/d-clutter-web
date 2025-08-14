@@ -1,7 +1,9 @@
 import React from "react";
 import dclutterlogo from "../assets/svg/dclutterlogo.svg";
+import { useNavigate } from "react-router-dom";
 
 export const NonAuthHeader = () => {
+  const navigate = useNavigate();
   return (
     <nav
       className="navbar navbar-expand-lg navbar-white bg-white"
@@ -12,11 +14,26 @@ export const NonAuthHeader = () => {
       }}
     >
       <div className="d-flex align-items-center justify-content-between w-100 px-5">
-        <img src={dclutterlogo} alt="D Clutter Logo" />
+        <img
+          src={dclutterlogo}
+          alt="D Clutter Logo"
+          className="cursor-pointer"
+          onClick={() => navigate("/")}
+        />
         <div className="d-flex gap-5">
-          <div className="text-14-600">Home</div>
-          <div className="text-14-600">About Us</div>
-          <div className="text-14-600">Contact Us</div>
+          <div
+            className="text-14-600 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
+            Home
+          </div>
+          <div
+            className="text-14-600 cursor-pointer"
+            onClick={() => navigate("/about-us")}
+          >
+            About Us
+          </div>
+          <div className="text-14-600 cursor-pointer">Contact Us</div>
         </div>
         <div
           className="text-16-400 border-grey px-3 py-1"
@@ -25,6 +42,7 @@ export const NonAuthHeader = () => {
             color: "#15BBC1",
             borderRadius: "5px",
           }}
+          onClick={() => navigate("/login")}
         >
           Login
         </div>
