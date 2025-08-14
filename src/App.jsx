@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { commonRoutes } from "./routes/commonRoutes";
-// import { customerRoutes } from "./routes/customerRoutes";
+import { customerRoutes } from "./routes/customerRoutes";
 // import { serviceProviderRoutes } from "./routes/serviceProviderRoutes";
 import AuthGuard from "./components/AuthGuard.jsx";
 import RoleGuard from "./components/RoleGuard.jsx";
@@ -14,9 +14,10 @@ function App() {
 
   let routes = commonRoutes; // Start with common routes
 
-  // if (role === "customer") {
-  //   routes = [...routes, ...customerRoutes]; // Add customer-specific routes
-  // } else if (role === "serviceProvider") {
+  if (role === "customer") {
+    routes = [...routes, ...customerRoutes]; // Add customer-specific routes
+  }
+  // else if (role === "serviceProvider") {
   //   routes = [...routes, ...serviceProviderRoutes]; // Add service provider-specific routes
   // }
 

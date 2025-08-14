@@ -1,91 +1,156 @@
 // src/components/Sidebar.jsx
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import dclutterlogo from "../assets/svg/dclutterlogo.svg";
+import {
+  BriefcaseBusiness,
+  CircleDollarSign,
+  House,
+  MessageCircleMore,
+  UserRound,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
 const Sidebar = () => {
+  const [isQuotesOpen, setIsQuotesOpen] = useState(false);
+  const [isJobsOpen, setIsJobsOpen] = useState(false);
+
+  const toggleQuotesDropdown = () => {
+    setIsQuotesOpen(!isQuotesOpen);
+  };
+
+  const toggleJobsDropdown = () => {
+    setIsJobsOpen(!isJobsOpen);
+  };
+
   return (
-    <div
-      style={{ height: "100%", backgroundColor: "#34495e", paddingTop: "20px" }}
-    >
+    <div style={{ height: "100%", backgroundColor: "#fff" }}>
+      <div className="d-flex justify-content-center">
+        <img src={dclutterlogo} height={72} width={72} alt="D Clutter Logo" />
+      </div>
       <nav>
-        <ul style={{ listStyleType: "none", padding: "0" }}>
+        <ul
+          className="d-flex flex-column gap-3 mt-5"
+          style={{ listStyleType: "none", padding: "0" }}
+        >
           <li>
-            <Link
-              to="/home"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
+            <NavLink
+              to="/"
+              className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center"
+              activeClassName="active" // Adds an active-sidebar-item class for Home NavLink
             >
-              Home
-            </Link>
+              <House className="sidebar-icon" size={16} strokeWidth={1} />
+              <span>Home</span>
+            </NavLink>
           </li>
           <li>
-            <Link
-              to="/quotes"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
+            <div
+              className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center justify-content-between"
+              style={{ cursor: "pointer" }}
+              onClick={toggleQuotesDropdown}
             >
-              Quotes
-            </Link>
+              <div className="d-flex gap-3 align-items-center">
+                <CircleDollarSign
+                  className="sidebar-icon"
+                  size={16}
+                  strokeWidth={1}
+                />
+                <span>Quotes</span>
+              </div>
+              {isQuotesOpen ? (
+                <ChevronUp className="sidebar-icon" size={16} />
+              ) : (
+                <ChevronDown className="sidebar-icon" size={16} />
+              )}
+            </div>
+            {isQuotesOpen && (
+              <ul style={{ listStyleType: "none", paddingLeft: "20px" }}>
+                <li>
+                  <NavLink
+                    to="/junk-removal"
+                    className="text-14-400 py-2 px-3 text-decoration-none d-flex gap-3 align-items-center"
+                  >
+                    <span className="text-14-500">Junk Removal</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/skip-hire"
+                    className="text-14-400 py-2 mt-2 px-3 text-decoration-none d-flex gap-3 align-items-center"
+                  >
+                    <span className="text-14-500">Skip Hire</span>
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
-            <Link
-              to="/my-jobs"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
+            <div
+              className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center justify-content-between"
+              style={{ cursor: "pointer" }}
+              onClick={toggleJobsDropdown}
             >
-              My Jobs
-            </Link>
+              <div className="d-flex gap-3 align-items-center">
+                <BriefcaseBusiness
+                  className="sidebar-icon"
+                  size={16}
+                  strokeWidth={1}
+                />
+                <span>My Jobs</span>
+              </div>
+              {isJobsOpen ? (
+                <ChevronUp className="sidebar-icon" size={16} />
+              ) : (
+                <ChevronDown className="sidebar-icon" size={16} />
+              )}
+            </div>
+            {isJobsOpen && (
+              <ul style={{ listStyleType: "none", paddingLeft: "20px" }}>
+                <li>
+                  <NavLink
+                    to="/junk-removal"
+                    className="text-14-400 py-2 px-3 text-decoration-none d-flex gap-3 align-items-center"
+                    activeClassName="active"
+                  >
+                    <span className="text-14-500">Junk Removal</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/skip-hire"
+                    activeClassName="active"
+                    className="text-14-400 py-2 mt-2 px-3 text-decoration-none d-flex gap-3 align-items-center"
+                  >
+                    <span className="text-14-500">Skip Hire</span>
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
-            <Link
-              to="/messages"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
+            <NavLink
+              to="/about-us"
+              className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center"
+              activeClassName="active"
             >
-              Messages
-            </Link>
+              <MessageCircleMore
+                className="sidebar-icon"
+                size={16}
+                strokeWidth={1}
+              />
+              <span>Messages</span>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/profile"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
+              className="text-14-500 py-12 px-3 text-decoration-none d-flex gap-3 align-items-center"
+              activeClassName="active"
             >
-              Profile
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/settings"
-              style={{
-                color: "#ecf0f1",
-                textDecoration: "none",
-                padding: "10px",
-                display: "block",
-              }}
-            >
-              Settings
-            </Link>
+              <UserRound className="sidebar-icon" size={16} strokeWidth={1} />
+              <span>Profile</span>
+            </NavLink>
           </li>
         </ul>
       </nav>
